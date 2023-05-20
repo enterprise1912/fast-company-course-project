@@ -17,6 +17,18 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
         }
     };
 
+    // // alternative to sortCaret.jsx
+    // const renderSortCaret = (selectedSort, currentPath) => {
+    //     if (selectedSort.path === currentPath) {
+    //         if (selectedSort.order === "desc") {
+    //             return <i className="bi bi-caret-down-fill"></i>;
+    //         } else {
+    //             return <i className="bi bi-caret-up-fill"></i>;
+    //         }
+    //     }
+    //     return null;
+    // };
+
     return (
         <thead>
             <tr>
@@ -35,6 +47,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         {selectedSort.path === columns[column].path && (
                             <SortCaret order={selectedSort.order} />
                         )}
+                        {/* {renderSortCaret(selectedSort, columns[column].path)} */}
                     </th>
                 ))}
                 {/* <th onClick={() => handleSort("name")} scope="colSpan">

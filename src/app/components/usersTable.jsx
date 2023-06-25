@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+
 import Bookmark from "./bookmark";
 import QualitiesList from "./qualitiesList";
 import Table from "./table";
-import UsersList from "./usersList";
 
 const UsersTable = ({
     users,
@@ -14,8 +15,13 @@ const UsersTable = ({
 }) => {
     const columns = {
         name: {
+            path: "name",
             name: "Имя",
-            component: (user) => <UsersList id={user._id} name={user.name} />
+            component: (user) => (
+                <Link key={user._id} to={`users/${user._id}`}>
+                    {user.name}
+                </Link>
+            )
         },
         qualities: {
             name: "Качество",

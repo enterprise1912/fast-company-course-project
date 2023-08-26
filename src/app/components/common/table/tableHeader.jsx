@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SortCaret from "./sortCaret";
+import SortCaret from "../../ui/sortCaret";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
     const handleSort = (item) => {

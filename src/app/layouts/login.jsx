@@ -1,93 +1,48 @@
-import React, { useEffect, useState } from "react";
-import TextField from "../components/textField";
-import { validator } from "../utils/validator";
+import React, { useState } from "react";
+import { useParams } from "react-router";
+import LoginForm from "../components/ui/loginForm";
+import RegisterForm from "../components/ui/registerForm";
 
 const Login = () => {
-    const [data, setData] = useState({ email: "", password: "" });
-    const [errors, setErrors] = useState({});
-
-    const validatorConfig = {
-        email: {
-            isRequired: {
-                message: "Email is required"
-            },
-            isEmail: {
-                message: "Email entered incorrectly"
-            }
-        },
-        password: {
-            isRequired: {
-                message: "Password is required"
-            },
-            isCapitalSymbol: {
-                message: "Password to containt at least one capital letter"
-            },
-            hasDigit: {
-                message: "Password has to contain at least one digit"
-            },
-            minLength: {
-                message: "Password has to containt at least 8 symbols",
-                value: 8
-            }
-        }
-    };
-
-    useEffect(() => {
-        validate();
-    }, [data]);
-
-    const validate = () => {
-        const errors = validator(data, validatorConfig);
-        setErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
-
-    const isValid = Object.keys(errors).length === 0;
-
-    const handleChange = ({ target }) => {
-        setData((prevState) => ({
-            ...prevState,
-            [target.name]: target.value
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const isValid = validate();
-        if (!isValid) return null;
-        console.log(data);
+    const { type } = useParams();
+    const [formType, setFormType] = useState(
+        type === "register" ? type : "login"
+    );
+    const toggelFormType = (params) => {
+        setFormType((prevState) =>
+            prevState === "register" ? "login" : "register"
+        );
     };
 
     return (
-        <div className="container">
+        <div className="container mt-5">
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
-                    <h3 className="mb-4">Login</h3>
-                    <form onSubmit={handleSubmit}>
-                        <TextField
-                            label="Email"
-                            type="text"
-                            name="email"
-                            value={data.email}
-                            onChange={handleChange}
-                            error={errors.email}
-                        />
-                        <TextField
-                            label="Password"
-                            type="password"
-                            name="password"
-                            value={data.password}
-                            onChange={handleChange}
-                            error={errors.password}
-                        />
-                        <button
-                            type="submit"
-                            disabled={!isValid}
-                            className="btn btn-primary w-100 mx-auto"
-                        >
-                            Submit
-                        </button>
-                    </form>
+                    {formType === "register" ? (
+                        <>
+                            <h3 className="mb-4">Register</h3>
+                            <RegisterForm />
+                            <p>
+                                Already have an account?
+                                <a role="button" onClick={toggelFormType}>
+                                    {" "}
+                                    Sign in
+                                </a>
+                            </p>
+                        </>
+                    ) : (
+                        <>
+                            <h3 className="mb-4">Login</h3>
+                            <LoginForm />
+                            <p>
+                                Don&apos;t have an account yet?
+                                <a role="button" onClick={toggelFormType}>
+                                    {" "}
+                                    Sign up
+                                </a>
+                            </p>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

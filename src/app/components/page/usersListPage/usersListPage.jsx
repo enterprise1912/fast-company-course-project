@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
 
-import api from "../api/index";
+import api from "../../../api/index";
 
-import Pagination from "./pagination";
-import GroupList from "./groupList";
-import SearchStatus from "./searchStatus";
-import UsersTable from "./usersTable";
+import Pagination from "../../common/pagination";
+import GroupList from "../../common/groupList";
+import SearchStatus from "../../ui/searchStatus";
+import UsersTable from "../../ui/usersTable";
 
-import { paginate } from "../utils/paginate";
+import { paginate } from "../../../utils/paginate";
 
 const UsersList = () => {
     const [users, setUsers] = useState([]);

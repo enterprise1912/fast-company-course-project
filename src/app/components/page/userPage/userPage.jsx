@@ -12,8 +12,12 @@ const UserPage = ({ userId }) => {
     }, [userId]);
 
     const history = useHistory();
-    const toAllUsers = () => {
-        history.push("/users");
+    // const toAllUsers = () => {
+    //     history.push(`/users/${userId}/edit`);
+    // };
+
+    const handleClick = () => {
+        history.push(history.location.pathname + "/edit");
     };
 
     return (
@@ -25,7 +29,7 @@ const UserPage = ({ userId }) => {
                     <Qualities qualities={user.qualities} />
                     <h2>Completed meetings: {user.completedMeetings}</h2>
                     <h2>Rate: {user.rate}</h2>
-                    <button onClick={() => toAllUsers()}>All users</button>
+                    <button onClick={handleClick}>Edit</button>
                 </div>
             ) : (
                 <h1>Loading...</h1>

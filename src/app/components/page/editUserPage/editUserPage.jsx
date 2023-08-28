@@ -10,6 +10,7 @@ import RadioField from "../../common/form/radioField";
 const EditUserPage = () => {
     const { userId } = useParams();
     const history = useHistory();
+    const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState({
         name: "",
         email: "",
@@ -17,7 +18,7 @@ const EditUserPage = () => {
         gender: "male",
         qualities: []
     });
-    const [qualities, setQualities] = useState([]);
+    const [qualities, setQualities] = useState({});
     const [professions, setProfessions] = useState([]);
     const [errors, setErrors] = useState({});
 
@@ -57,18 +58,19 @@ const EditUserPage = () => {
                 qualities: getQualities(qualities)
             })
             .then((data) => history.push(`/users/${data._id}`));
-        console.log({
-            ...data,
-            profession: getProfessionById(profession),
-            qualities: getQualities(qualities)
-        });
+        console.log(data);
     };
 
     const convertData = (data) => {
-        return data.map((qual) => ({ label: qual.name, value: qual._id }));
+        return data.map((qual) => ({
+            label: qual.name,
+            value: qual._id,
+            color: qual.color
+        }));
     };
 
     useEffect(() => {
+        setIsLoading(true);
         api.users.getById(userId).then(({ profession, qualities, ...data }) =>
             setData((prevState) => ({
                 ...prevState,
@@ -93,6 +95,10 @@ const EditUserPage = () => {
             setQualities(qualitiesList);
         });
     }, []);
+
+    useEffect(() => {
+        if (data._id) setIsLoading(false);
+    }, [data]);
 
     const validatorConfig = {
         email: {
@@ -133,7 +139,7 @@ const EditUserPage = () => {
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-6 offset-md-3 shadow p-4">
-                    {data ? (
+                    {!isLoading && Object.keys(professions).length > 0 ? (
                         <form onSubmit={handleSubmit}>
                             <TextField
                                 label="Name"

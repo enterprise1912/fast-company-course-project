@@ -12,9 +12,6 @@ const UserPage = ({ userId }) => {
     }, [userId]);
 
     const history = useHistory();
-    // const toAllUsers = () => {
-    //     history.push(`/users/${userId}/edit`);
-    // };
 
     const handleClick = () => {
         history.push(history.location.pathname + "/edit");

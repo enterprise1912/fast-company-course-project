@@ -1,31 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 
-import Bookmark from "../common/bookmark";
+import BookMark from "../common/bookmark";
 import Qualities from "./qualities";
 import Table from "../common/table";
+import { Link } from "react-router-dom";
 import Profession from "./profession";
 
-const UsersTable = ({
-    users,
-    onSort,
-    selectedSort,
-    handleToggleBookmark,
-    handleDelete
-}) => {
+const UsersTable = ({ users, onSort, selectedSort, onToggleBookMark }) => {
     const columns = {
         name: {
             path: "name",
             name: "Имя",
             component: (user) => (
-                <Link key={user._id} to={`users/${user._id}`}>
-                    {user.name}
-                </Link>
+                <Link to={`/users/${user._id}`}>{user.name}</Link>
             )
         },
         qualities: {
-            name: "Качество",
+            name: "Качества",
             component: (user) => <Qualities qualities={user.qualities} />
         },
         professions: {
@@ -41,20 +33,10 @@ const UsersTable = ({
             path: "bookmark",
             name: "Избранное",
             component: (user) => (
-                <Bookmark
+                <BookMark
                     status={user.bookmark}
-                    onClick={() => handleToggleBookmark(user._id)}
+                    onClick={() => onToggleBookMark(user._id)}
                 />
-            )
-        },
-        delete: {
-            component: (user) => (
-                <button
-                    className={"btn btn-danger"}
-                    onClick={() => handleDelete(user._id)}
-                >
-                    Удалить
-                </button>
             )
         }
     };
@@ -72,8 +54,7 @@ UsersTable.propTypes = {
     users: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,
-    handleToggleBookmark: PropTypes.func.isRequired,
-    handleDelete: PropTypes.func.isRequired
+    onToggleBookMark: PropTypes.func.isRequired
 };
 
 export default UsersTable;
